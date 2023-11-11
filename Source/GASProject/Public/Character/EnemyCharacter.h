@@ -13,5 +13,9 @@ UCLASS()
 class GASPROJECT_API AEnemyCharacter : public ACharacterBase
 {
 	GENERATED_BODY()
-	
+
+public:
+	AEnemyCharacter();
+	virtual void BeginPlay() override;
+
 };
