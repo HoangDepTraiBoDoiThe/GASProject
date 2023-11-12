@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "GASPlayerController.generated.h"
 
+class IEnemyInterface;
 /**
  * 
  */
@@ -23,6 +24,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
+	virtual void Tick(float DeltaSeconds) override;
 
 	UPROPERTY(EditAnywhere, Category= "Character")
 	UInputMappingContext* InputMappingContext;
@@ -30,6 +32,10 @@ protected:
 	UPROPERTY(EditAnywhere, Category= "Character")
 	UInputAction* IAMove;
 
+	IEnemyInterface* CurrentFrameUnderTrace;
+	IEnemyInterface* LastFrameUnderTrace;
+
 	UFUNCTION()
 	void InputActionMove(const FInputActionValue& InputActionValue);
+	void CursorTrace();
 };
