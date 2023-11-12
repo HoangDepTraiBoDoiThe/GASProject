@@ -18,6 +18,8 @@ class GASPROJECT_API AEnemyCharacter : public ACharacterBase, public IEnemyInter
 public:
 	AEnemyCharacter();
 	virtual void BeginPlay() override;
+	virtual void InitAbilityActorInfor(AActor* OwnerActor, AActor* AvatarActor) override;
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	virtual void HighlightEnemy() override;
 	virtual void UnHighlightEnemy() override;

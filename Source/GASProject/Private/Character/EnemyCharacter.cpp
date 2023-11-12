@@ -3,13 +3,32 @@
 
 #include "Character/EnemyCharacter.h"
 
+#include "AbilitySystem/GASAbilitySystemComponentBase.h"
+
 AEnemyCharacter::AEnemyCharacter()
 {
+	AbilitySystemComponent = CreateDefaultSubobject<UGASAbilitySystemComponentBase>("Ability System Comp");
+	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+	
+	AttributeSet = CreateDefaultSubobject<UAttributeSet>("Attribute Set");
 }
 
 void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	InitAbilityActorInfor(this, this);
+}
+
+void AEnemyCharacter::InitAbilityActorInfor(AActor* OwnerActor, AActor* AvatarActor)
+{
+	Super::InitAbilityActorInfor(OwnerActor, AvatarActor);
+}
+
+UAbilitySystemComponent* AEnemyCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
 }
 
 void AEnemyCharacter::HighlightEnemy()

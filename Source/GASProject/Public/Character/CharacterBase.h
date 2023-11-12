@@ -3,11 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystemInterface.h"
 #include "GameFramework/Character.h"
 #include "CharacterBase.generated.h"
 
+class UAttributeSet;
+class UAbilitySystemComponent;
+
 UCLASS(Abstract)
-class GASPROJECT_API ACharacterBase : public ACharacter
+class GASPROJECT_API ACharacterBase : public ACharacter, IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -16,5 +20,11 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void InitAbilityActorInfor(AActor* OwnerActor, AActor* AvatarActor);
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual void OnRep_PlayerState() override;
+	
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	TObjectPtr<UAttributeSet> AttributeSet;
 
 };
