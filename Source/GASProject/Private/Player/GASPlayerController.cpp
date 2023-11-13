@@ -1,11 +1,11 @@
 // Copyright Hoang Dep Trai Bo Doi The
 
+#include "Player/GASPlayerController.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Character/EnemyCharacter.h"
 #include "Interface/Interaction/IEnemyInterface.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "Controller/GASPlayerController.h"
 
 void AGASPlayerController::BeginPlay()
 {

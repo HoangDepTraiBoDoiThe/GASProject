@@ -4,6 +4,7 @@
 #include "Character/EnemyCharacter.h"
 
 #include "AbilitySystem/GASAbilitySystemComponentBase.h"
+#include "AbilitySystem/GASAttributeSet.h"
 
 AEnemyCharacter::AEnemyCharacter()
 {
@@ -11,7 +12,7 @@ AEnemyCharacter::AEnemyCharacter()
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 	
-	AttributeSet = CreateDefaultSubobject<UAttributeSet>("Attribute Set");
+	AttributeSet = CreateDefaultSubobject<UGASAttributeSet>("Attribute Set");
 }
 
 void AEnemyCharacter::BeginPlay()
@@ -24,11 +25,6 @@ void AEnemyCharacter::BeginPlay()
 void AEnemyCharacter::InitAbilityActorInfor(AActor* OwnerActor, AActor* AvatarActor)
 {
 	Super::InitAbilityActorInfor(OwnerActor, AvatarActor);
-}
-
-UAbilitySystemComponent* AEnemyCharacter::GetAbilitySystemComponent() const
-{
-	return AbilitySystemComponent;
 }
 
 void AEnemyCharacter::HighlightEnemy()

@@ -19,7 +19,9 @@ class GASPROJECT_API APlayerCharacter : public ACharacterBase
 public:
 	APlayerCharacter();
 	virtual void BeginPlay() override;
+	void SetupAbilityActorInfor();
 	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
 	
 protected:
 	

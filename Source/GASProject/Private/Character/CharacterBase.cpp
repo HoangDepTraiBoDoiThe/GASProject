@@ -26,6 +26,7 @@ void ACharacterBase::InitAbilityActorInfor(AActor* OwnerActor, AActor* AvatarAct
 
 UAbilitySystemComponent* ACharacterBase::GetAbilitySystemComponent() const
 {
+	return AbilitySystemComponent;
 }
 
 void ACharacterBase::OnRep_PlayerState()

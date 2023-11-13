@@ -7,11 +7,12 @@
 #include "GameFramework/Character.h"
 #include "CharacterBase.generated.h"
 
+class UGASAttributeSet;
 class UAttributeSet;
 class UAbilitySystemComponent;
 
 UCLASS(Abstract)
-class GASPROJECT_API ACharacterBase : public ACharacter, IAbilitySystemInterface
+class GASPROJECT_API ACharacterBase : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -25,6 +26,6 @@ protected:
 	virtual void OnRep_PlayerState() override;
 	
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
-	TObjectPtr<UAttributeSet> AttributeSet;
+	TObjectPtr<UGASAttributeSet> AttributeSet;
 
 };

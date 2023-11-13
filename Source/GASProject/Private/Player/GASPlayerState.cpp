@@ -1,8 +1,9 @@
 // Copyright Hoang Dep Trai Bo Doi The
 
-#include "PlayerState/GASPlayerState.h"
+#include "Player/GASPlayerState.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/GASAbilitySystemComponentBase.h"
+#include "AbilitySystem/GASAttributeSet.h"
 
 AGASPlayerState::AGASPlayerState()
 {
@@ -10,7 +11,7 @@ AGASPlayerState::AGASPlayerState()
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 	
-	AttributeSet = CreateDefaultSubobject<UAttributeSet>("Attribute Set");
+	AttributeSet = CreateDefaultSubobject<UGASAttributeSet>("Attribute Set");
 }
 
 void AGASPlayerState::BeginPlay()
@@ -18,4 +19,9 @@ void AGASPlayerState::BeginPlay()
 	Super::BeginPlay();
 
 	AbilitySystemComponent->SetOwnerActor(this);
+}
+
+UAbilitySystemComponent* AGASPlayerState::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
 }
