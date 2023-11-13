@@ -4,9 +4,13 @@
 #include "Character/PlayerCharacter.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/GASAttributeSet.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Player/GASPlayerController.h"
 #include "Player/GASPlayerState.h"
+#include "UI/HUD/GASHUD.h"
+#include "UI/WidgetController/GASWidgetController.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -42,5 +46,11 @@ void APlayerCharacter::SetupAbilityActorInfor()
 	check(GASPlayerState)
 	GASPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(GASPlayerState, this);
 	AbilitySystemComponent = GASPlayerState->GetAbilitySystemComponent();
-	AttributeSet = GASPlayerState->GetAttributeSet();
+	AttributeSet = Cast<UGASAttributeSet>(GASPlayerState->GetAttributeSet());
+
+	GASPlayerController = Cast<AGASPlayerController>(GetController());
+	GASHud = Cast<AGASHUD>(GASPlayerController->GetHUD());
+
+	FWidgetControllerStruct WidgetControllerStruct(GASPlayerController, GASPlayerState, AbilitySystemComponent, AttributeSet);
+	GASHud->InitWidgetController(WidgetControllerStruct);
 }

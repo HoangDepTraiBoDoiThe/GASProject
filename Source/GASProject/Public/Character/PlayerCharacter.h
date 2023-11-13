@@ -6,6 +6,8 @@
 #include "Character/CharacterBase.h"
 #include "PlayerCharacter.generated.h"
 
+class AGASPlayerController;
+class AGASHUD;
 class USpringArmComponent;
 class UCameraComponent;
 /**
@@ -24,14 +26,14 @@ public:
 	virtual void OnRep_PlayerState() override;
 	
 protected:
-	
-	
 	UPROPERTY(EditAnywhere, Category = "PlayerCharacter")
 	UCameraComponent* PlayerCam;
 
 	UPROPERTY(EditAnywhere, Category = "PlayerCharacter")
 	USpringArmComponent* SpringArmComponent;
 
+	TObjectPtr<AGASPlayerController> GASPlayerController;
+	TObjectPtr<AGASHUD> GASHud; 
 
 private:
 	

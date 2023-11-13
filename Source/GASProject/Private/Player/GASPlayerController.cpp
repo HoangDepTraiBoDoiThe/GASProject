@@ -55,15 +55,6 @@ void AGASPlayerController::CursorTrace()
 	FHitResult HitResult;
 	GetHitResultUnderCursor(ECC_Visibility, false, HitResult);
 
-	if (HitResult.GetActor())
-	{
-		IEnemyInterface* a = Cast<IEnemyInterface>(HitResult.GetActor());
-		if (a)
-		{
-			//x
-		}
-	}
-
 	LastFrameUnderTrace = CurrentFrameUnderTrace;
 	CurrentFrameUnderTrace = Cast<IEnemyInterface>(HitResult.GetActor());
 
