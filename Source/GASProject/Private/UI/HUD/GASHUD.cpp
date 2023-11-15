@@ -3,7 +3,6 @@
 
 #include "UI/HUD/GASHUD.h"
 
-#include "AbilitySystem/GASAttributeSet.h"
 #include "Blueprint/UserWidget.h"
 #include "UI/Widget/GASUserWidget.h"
 #include "UI/WidgetController/GASWidgetController.h"
@@ -12,15 +11,15 @@
 void AGASHUD::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AGASHUD::InitWidgetController(FWidgetControllerStruct WidgetControllerStruct)
 {
-	checkf(OverlayProgressWidgetClass, TEXT("OverlayProgressWidgetClass is a nullptr, pls make sure to add it in the editor."))
+	checkf(OverlayProgressWidgetClass,
+	       TEXT("OverlayProgressWidgetClass is a nullptr, pls make sure to add it in the editor."))
 	OverlayProgressWidget = Cast<UGASUserWidget>(CreateWidget(GetWorld(), OverlayProgressWidgetClass));
 	OverlayProgressWidget->AddToViewport();
-	
+
 	WidgetController = NewObject<UOverlayWidgetController>(this, WidgetControllerClass);
 	WidgetController->InitWidgetControllerStruct(WidgetControllerStruct);
 

@@ -25,18 +25,29 @@ public:
 	UGASAttributeSet();
 	ATTRIBUTE_ACCESSORS(UGASAttributeSet, MaxHitPoint)
 	ATTRIBUTE_ACCESSORS(UGASAttributeSet, HitPoint)
+	ATTRIBUTE_ACCESSORS(UGASAttributeSet, Mana)
+	ATTRIBUTE_ACCESSORS(UGASAttributeSet, MaxMana)
 
 protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	
 	UPROPERTY(ReplicatedUsing = OnRep_HitPoint, BlueprintReadOnly, Category = Attribute)
 	FGameplayAttributeData HitPoint;
-
 	UPROPERTY(ReplicatedUsing = OnRep_MaxHitPoint)
 	FGameplayAttributeData MaxHitPoint;
+
+	UPROPERTY(ReplicatedUsing = OnRep_Mana)
+	FGameplayAttributeData Mana;
+	UPROPERTY(ReplicatedUsing = OnRep_MaxMana)
+	FGameplayAttributeData MaxMana;
 	
 	UFUNCTION()
-	void OnRep_HitPoint(const FGameplayAttributeData OldHitPoint) const;
+	void OnRep_HitPoint(const FGameplayAttributeData& OldHitPoint) const;
 	UFUNCTION()
-	void OnRep_MaxHitPoint(const FGameplayAttributeData OldMaxHitPoint) const;
+	void OnRep_MaxHitPoint(const FGameplayAttributeData& OldMaxHitPoint) const;
+
+	UFUNCTION()
+	void OnRep_Mana(const FGameplayAttributeData& OldMana);
+	UFUNCTION()
+	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana);
 };

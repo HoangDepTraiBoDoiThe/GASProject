@@ -14,7 +14,6 @@
 
 APlayerCharacter::APlayerCharacter()
 {
-
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("SpringArm");
 	SpringArmComponent->SetupAttachment(GetRootComponent());
 	PlayerCam = CreateDefaultSubobject<UCameraComponent>("Player Camera");

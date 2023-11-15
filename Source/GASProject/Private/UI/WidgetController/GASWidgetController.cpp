@@ -14,3 +14,7 @@ void UGASWidgetController::InitWidgetControllerStruct(FWidgetControllerStruct Ne
 void UGASWidgetController::BroadCastInitProperties()
 {
 }
+
+void UGASWidgetController::BroadCastOnGameplayAttributeValueChange()
+{
+}

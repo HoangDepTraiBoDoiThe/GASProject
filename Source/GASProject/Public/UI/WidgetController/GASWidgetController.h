@@ -46,6 +46,7 @@ public:
 	void InitWidgetControllerStruct(FWidgetControllerStruct NewWidgetControllerStruct);
 	
 	virtual void BroadCastInitProperties();
+	virtual void BroadCastOnGameplayAttributeValueChange();
 	
 protected:
 	FWidgetControllerStruct WidgetControllerStruct;

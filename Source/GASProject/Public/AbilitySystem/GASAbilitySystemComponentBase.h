@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
-#include "AbilitySystemInterface.h"
 #include "GASAbilitySystemComponentBase.generated.h"
 
 /**
@@ -14,6 +13,7 @@ UCLASS()
 class GASPROJECT_API UGASAbilitySystemComponentBase : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
+
 
 protected:
 	
