@@ -52,4 +52,5 @@ void APlayerCharacter::SetupAbilityActorInfor()
 
 	FWidgetControllerStruct WidgetControllerStruct(GASPlayerController, GASPlayerState, AbilitySystemComponent, AttributeSet);
 	GASHud->InitWidgetController(WidgetControllerStruct);
+	
 }

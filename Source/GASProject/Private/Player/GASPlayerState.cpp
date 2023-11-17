@@ -7,6 +7,8 @@
 
 AGASPlayerState::AGASPlayerState()
 {
+	NetUpdateFrequency = 100;
+	
 	AbilitySystemComponent = CreateDefaultSubobject<UGASAbilitySystemComponentBase>("Ability System Comp");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
@@ -28,4 +30,5 @@ void AGASPlayerState::BeginPlay()
 UAbilitySystemComponent* AGASPlayerState::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
+	
 }
