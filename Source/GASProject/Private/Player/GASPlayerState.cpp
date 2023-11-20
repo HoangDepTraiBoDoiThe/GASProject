@@ -14,10 +14,9 @@ AGASPlayerState::AGASPlayerState()
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 	
 	AttributeSet = CreateDefaultSubobject<UGASAttributeSet>("Attribute Set");
+	
 	AttributeSet->InitHitPoint(50.f);
-	AttributeSet->InitMaxHitPoint(100.f);
 	AttributeSet->InitMana(50.f);
-	AttributeSet->InitMaxMana(100.f);
 }
 
 void AGASPlayerState::BeginPlay()

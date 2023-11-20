@@ -50,6 +50,8 @@ void APlayerCharacter::InitAbilitySystemInfor()
 
 	Cast<UGASAbilitySystemComponentBase>(AbilitySystemComponent)->AbilityActorInfoSet();
 
+	InitializeDefaultAttribute();
+
 	GASPlayerController = Cast<AGASPlayerController>(GetController());
 	GASHud = Cast<AGASHUD>(GASPlayerController->GetHUD());
 
@@ -57,3 +59,4 @@ void APlayerCharacter::InitAbilitySystemInfor()
 	GASHud->InitWidgetController(WidgetControllerStruct);
 	
 }
+

@@ -9,7 +9,6 @@
 
 UGASAttributeSet::UGASAttributeSet()
 {
-
 }
 
 void UGASAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -23,12 +22,12 @@ void UGASAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, Strength, COND_None, REPNOTIFY_Always)
 	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, Intelligent, COND_None, REPNOTIFY_Always)
 	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, Vigor, COND_None, REPNOTIFY_Always)
+	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, Resillience, COND_None, REPNOTIFY_Always)
 }
 
 void UGASAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
 	Super::PreAttributeChange(Attribute, NewValue);
-	
 }
 
 void UGASAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
@@ -36,6 +35,7 @@ void UGASAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 	Super::PostGameplayEffectExecute(Data);
 }
 
+#pragma region Primary attributes
 void UGASAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, Strength, OldStrength)
@@ -51,6 +51,13 @@ void UGASAttributeSet::OnRep_Vigor(const FGameplayAttributeData& OldVigor)
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, Vigor, OldVigor)
 }
 
+void UGASAttributeSet::OnRep_Resillience(const FGameplayAttributeData& OldResillience)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, Resillience, OldResillience)
+}
+#pragma endregion Primary attributes
+
+#pragma region Secondary attributes
 void UGASAttributeSet::OnRep_HitPoint(const FGameplayAttributeData& OldValue) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, HitPoint, OldValue)
@@ -70,3 +77,44 @@ void UGASAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, MaxMana, OldMaxMana)
 }
+
+void UGASAttributeSet::OnRep_Armor(const FGameplayAttributeData& OldArmor)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, Armor, OldArmor)
+}
+
+void UGASAttributeSet::OnRep_ArmorPenetration(const FGameplayAttributeData& OldArmorPenetration)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, ArmorPenetration, OldArmorPenetration)
+}
+
+void UGASAttributeSet::OnRep_BlockChance(const FGameplayAttributeData& OldBlockChance)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, BlockChance, OldBlockChance)
+}
+
+void UGASAttributeSet::OnRep_CriticalHitChance(const FGameplayAttributeData& OldCriticalHitChance)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, CriticalHitChance, OldCriticalHitChance)
+}
+
+void UGASAttributeSet::OnRep_CriticalHitDamage(const FGameplayAttributeData& OldCriticalHitDamage)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, CriticalHitDamage, OldCriticalHitDamage)
+}
+
+void UGASAttributeSet::OnRep_CriticalHitResistance(const FGameplayAttributeData& OlCriticalHitResistance)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, CriticalHitResistance, OlCriticalHitResistance)
+}
+
+void UGASAttributeSet::OnRep_HealthRegeneration(const FGameplayAttributeData& OldHealthRegeneration)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, HealthRegeneration, OldHealthRegeneration)
+}
+
+void UGASAttributeSet::OnRep_ManaRegeneration(const FGameplayAttributeData& OldManaRegeneration)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, ManaRegeneration, OldManaRegeneration)
+}
+#pragma endregion Secondary attributes

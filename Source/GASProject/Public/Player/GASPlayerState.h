@@ -25,6 +25,7 @@ public:
 	FORCEINLINE UGASAttributeSet* GetAttributeSet() const {return AttributeSet;}
 
 protected:
+	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	TObjectPtr<UGASAttributeSet> AttributeSet;
 };
