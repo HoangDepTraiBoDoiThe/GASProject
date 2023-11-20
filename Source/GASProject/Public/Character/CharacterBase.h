@@ -21,7 +21,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-	virtual void InitAbilityActorInfor(AActor* OwnerActor, AActor* AvatarActor);
+	virtual void InitAbilitySystemInfor();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual void OnRep_PlayerState() override;
 	

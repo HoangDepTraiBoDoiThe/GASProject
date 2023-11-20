@@ -17,11 +17,9 @@ void ACharacterBase::BeginPlay()
 	
 }
 
-void ACharacterBase::InitAbilityActorInfor(AActor* OwnerActor, AActor* AvatarActor)
+void ACharacterBase::InitAbilitySystemInfor()
 {
-	check(AbilitySystemComponent)
-	AbilitySystemComponent->SetOwnerActor(OwnerActor);
-	AbilitySystemComponent->SetAvatarActor(AvatarActor);
+
 }
 
 UAbilitySystemComponent* ACharacterBase::GetAbilitySystemComponent() const

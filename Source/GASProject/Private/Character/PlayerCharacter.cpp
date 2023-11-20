@@ -4,6 +4,7 @@
 #include "Character/PlayerCharacter.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/GASAbilitySystemComponentBase.h"
 #include "AbilitySystem/GASAttributeSet.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -29,23 +30,25 @@ void APlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	SetupAbilityActorInfor();
+	InitAbilitySystemInfor();
 }
 
 void APlayerCharacter::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
 
-	SetupAbilityActorInfor();
+	InitAbilitySystemInfor();
 }
 
-void APlayerCharacter::SetupAbilityActorInfor()
+void APlayerCharacter::InitAbilitySystemInfor()
 {
 	AGASPlayerState* GASPlayerState = Cast<AGASPlayerState>(GetPlayerState());
 	check(GASPlayerState)
 	GASPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(GASPlayerState, this);
 	AbilitySystemComponent = GASPlayerState->GetAbilitySystemComponent();
 	AttributeSet = Cast<UGASAttributeSet>(GASPlayerState->GetAttributeSet());
+
+	Cast<UGASAbilitySystemComponentBase>(AbilitySystemComponent)->AbilityActorInfoSet();
 
 	GASPlayerController = Cast<AGASPlayerController>(GetController());
 	GASHud = Cast<AGASHUD>(GASPlayerController->GetHUD());

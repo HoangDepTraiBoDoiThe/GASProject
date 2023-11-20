@@ -4,6 +4,8 @@
 #include "UI/HUD/GASHUD.h"
 
 #include "Blueprint/UserWidget.h"
+#include "GameFramework/Character.h"
+#include "Player/GASPlayerController.h"
 #include "UI/Widget/GASUserWidget.h"
 #include "UI/WidgetController/GASWidgetController.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
@@ -15,8 +17,7 @@ void AGASHUD::BeginPlay()
 
 void AGASHUD::InitWidgetController(FWidgetControllerStruct WidgetControllerStruct)
 {
-	checkf(OverlayProgressWidgetClass,
-	       TEXT("OverlayProgressWidgetClass is a nullptr, pls make sure to add it in the editor."))
+	checkf(OverlayProgressWidgetClass, TEXT("OverlayProgressWidgetClass is a nullptr, pls make sure to add it in the editor."))
 	OverlayProgressWidget = Cast<UGASUserWidget>(CreateWidget(GetWorld(), OverlayProgressWidgetClass));
 	OverlayProgressWidget->AddToViewport();
 
@@ -27,5 +28,6 @@ void AGASHUD::InitWidgetController(FWidgetControllerStruct WidgetControllerStruc
 	{
 		OverlayProgressWidget->SetWidgetController(WidgetController);
 		WidgetController->BroadCastInitProperties();
+		WidgetController->BroadCastOnGameplayAttributeValueChange();
 	}
 }

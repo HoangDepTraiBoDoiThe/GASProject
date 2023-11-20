@@ -19,12 +19,11 @@ void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	InitAbilityActorInfor(this, this);
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }
 
-void AEnemyCharacter::InitAbilityActorInfor(AActor* OwnerActor, AActor* AvatarActor)
+void AEnemyCharacter::InitAbilitySystemInfor()
 {
-	Super::InitAbilityActorInfor(OwnerActor, AvatarActor);
 }
 
 void AEnemyCharacter::HighlightEnemy()

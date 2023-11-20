@@ -6,6 +6,8 @@
 #include "AbilitySystemComponent.h"
 #include "GASAbilitySystemComponentBase.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FGameplayEffectTagsDelegate, const FGameplayTagContainer&)
+
 /**
  * 
  */
@@ -14,7 +16,14 @@ class GASPROJECT_API UGASAbilitySystemComponentBase : public UAbilitySystemCompo
 {
 	GENERATED_BODY()
 
+public:
+	void AbilityActorInfoSet();
+	virtual void BeginPlay() override;
 
+	FGameplayEffectTagsDelegate GameplayEffectTagsDelegate;
+	
 protected:
+	void GameplayEffectApplied(UAbilitySystemComponent* TargetASC, const FGameplayEffectSpec& SourceGES, FActiveGameplayEffectHandle ActiveGameplayEffectHandle);
+
 	
 };

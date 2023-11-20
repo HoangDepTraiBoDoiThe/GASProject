@@ -20,16 +20,68 @@ void UOverlayWidgetController::BroadCastInitProperties()
 
 void UOverlayWidgetController::BroadCastOnGameplayAttributeValueChange()
 {
-	UGASAbilitySystemComponentBase* AbilitySystemComponentBase = Cast<UGASAbilitySystemComponentBase>(WidgetControllerStruct.AbilitySystemComponent);
+	UGASAbilitySystemComponentBase* AbilitySystemComponentBase = Cast<UGASAbilitySystemComponentBase>(
+		WidgetControllerStruct.AbilitySystemComponent);
 	const UGASAttributeSet* AttributeSet = Cast<UGASAttributeSet>(WidgetControllerStruct.AttributeSet);
 
 	if (AbilitySystemComponentBase && AttributeSet)
 	{
-		AbilitySystemComponentBase->GetGameplayAttributeValueChangeDelegate(AttributeSet->GetHitPointAttribute()).AddUObject(this, &UOverlayWidgetController::OnHitPointValueChange);
-	}
-}
+		AbilitySystemComponentBase->GetGameplayAttributeValueChangeDelegate(AttributeSet->GetStrengthAttribute()).AddLambda(
+			[this] (const FOnAttributeChangeData& Data)
+			{
+				StrengthDelegate.Broadcast(Data.NewValue);
+			}
+		);
+		AbilitySystemComponentBase->GetGameplayAttributeValueChangeDelegate(AttributeSet->GetStrengthAttribute()).AddLambda(
+			[this](const FOnAttributeChangeData& Data)
+			{
+				IntelligentDelegate.Broadcast(Data.NewValue);
+			}
+		);
+		AbilitySystemComponentBase->GetGameplayAttributeValueChangeDelegate(AttributeSet->GetStrengthAttribute()).AddLambda(
+			[this](const FOnAttributeChangeData& Data)
+			{
+				VigorDelegate.Broadcast(Data.NewValue);
+			}
+		);
+		AbilitySystemComponentBase->GetGameplayAttributeValueChangeDelegate(AttributeSet->GetHitPointAttribute()).AddLambda(
+			[this] (const FOnAttributeChangeData& Data)
+			{
+				HitPointDelegate.Broadcast(Data.NewValue);
+			}
+		);
+		AbilitySystemComponentBase->GetGameplayAttributeValueChangeDelegate(AttributeSet->GetMaxHitPointAttribute()).AddLambda(
+			[this] (const FOnAttributeChangeData& Data)
+			{
+				MaxHitPointDelegate.Broadcast(Data.NewValue);
+			}
+		);
+		AbilitySystemComponentBase->GetGameplayAttributeValueChangeDelegate(AttributeSet->GetManaAttribute()).AddLambda(
+			[this] (const FOnAttributeChangeData& Data)
+			{
+				ManaDelegate.Broadcast(Data.NewValue);
+			}
+		);
+		AbilitySystemComponentBase->GetGameplayAttributeValueChangeDelegate(AttributeSet->GetMaxManaAttribute()).AddLambda(
+				[this] (const FOnAttributeChangeData& Data)
+				{
+					MaxManaDelegate.Broadcast(Data.NewValue);
+				}
+			);
 
-void UOverlayWidgetController::OnHitPointValueChange(const FOnAttributeChangeData& Data) const
-{
-	HitPointDelegate.Broadcast(Data.NewValue);
+		Cast<UGASAbilitySystemComponentBase>(AbilitySystemComponentBase)->GameplayEffectTagsDelegate.AddLambda(
+			[this](const FGameplayTagContainer& GameplayTags)
+			{
+				FGameplayTag Tag2Compare = FGameplayTag::RequestGameplayTag("Message");
+				for (auto& Tag : GameplayTags)
+				{
+					if (Tag.MatchesTag(Tag2Compare))
+					{
+						FGameplayTagRespondMessageStruct* Row = GetDataTableRow<FGameplayTagRespondMessageStruct>(MessageWidgetDataTable, Tag);
+						GameplayEffectMessageDataRow.Broadcast(*Row);
+					}
+				}
+			}
+		);
+	}
 }
