@@ -45,8 +45,9 @@ void ACharacterBase::SetDefaultAttribute(TSubclassOf<UGameplayEffect> DefaultAtt
 
 void ACharacterBase::InitializeDefaultAttribute()
 {
-	SetDefaultAttribute(DefaultSecondaryAttributeClass, CharacterLevel);
 	SetDefaultAttribute(DefaultPrimaryAttributeClass, CharacterLevel);
+	SetDefaultAttribute(DefaultSecondaryAttributeClass, CharacterLevel);
+	SetDefaultAttribute(DefaultVitalAttributeClass, CharacterLevel);
 }
 
 

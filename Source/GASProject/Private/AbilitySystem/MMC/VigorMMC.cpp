@@ -4,12 +4,15 @@
 #include "AbilitySystem/MMC/VigorMMC.h"
 
 #include "AbilitySystem/GASAttributeSet.h"
+#include "Interface/GASCombatInterface.h"
 
 UVigorMMC::UVigorMMC()
 {
 	AttributeCaptureDefinition.AttributeToCapture = UGASAttributeSet::GetVigorAttribute();
 	AttributeCaptureDefinition.AttributeSource = EGameplayEffectAttributeCaptureSource::Source;
 	AttributeCaptureDefinition.bSnapshot = false;
+
+	RelevantAttributesToCapture.Add(AttributeCaptureDefinition);
 }
 
 float UVigorMMC::CalculateBaseMagnitude_Implementation(const FGameplayEffectSpec& Spec) const
@@ -20,7 +23,15 @@ float UVigorMMC::CalculateBaseMagnitude_Implementation(const FGameplayEffectSpec
 	EvaluateParameters.TargetTags = TargetTagContainer;
 	EvaluateParameters.SourceTags = SourceTagContainer;
 	float VigorMagnitude;
-	GetCapturedAttributeMagnitude(AttributeCaptureDefinition, Spec,EvaluateParameters, VigorMagnitude );
+	GetCapturedAttributeMagnitude(AttributeCaptureDefinition, Spec, EvaluateParameters, VigorMagnitude );
 
-	return VigorMagnitude * 100 + 100;
+	IGASCombatInterface* Character = Cast<IGASCombatInterface>(Spec.GetContext().GetSourceObject());
+	checkf(Character, TEXT("Unable to get CombatInterface in VigorMMC"))
+
+	int CharacterLevel = Character->GetCharacterLevel();
+	float BaseValue = 100.f;
+	float Coefficient = 0.5f;
+	
+	float CalResult = VigorMagnitude * Coefficient * CharacterLevel + BaseValue;
+	return CalResult;
 }
