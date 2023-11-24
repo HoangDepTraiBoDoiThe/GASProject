@@ -13,11 +13,12 @@
 void AGASHUD::BeginPlay()
 {
 	Super::BeginPlay();
+	
 }
 
 void AGASHUD::InitWidgetController(FWidgetControllerStruct WidgetControllerStruct)
 {
-	if (OverlayProgressWidgetClass.Get() == nullptr) return;
+	if (!GetOwningPlayerController()->IsLocalPlayerController()) return;
 	checkf(OverlayProgressWidgetClass, TEXT("OverlayProgressWidgetClass is a nullptr, pls make sure to set it in the editor."))
 	OverlayProgressWidget = Cast<UGASUserWidget>(CreateWidget(GetWorld(), OverlayProgressWidgetClass));
 	OverlayProgressWidget->AddToViewport();

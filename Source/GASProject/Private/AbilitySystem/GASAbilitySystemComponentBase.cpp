@@ -14,9 +14,7 @@ void UGASAbilitySystemComponentBase::BeginPlay()
 
 }
 
-void UGASAbilitySystemComponentBase::GameplayEffectApplied(UAbilitySystemComponent* TargetASC,
-                                                           const FGameplayEffectSpec& SourceGES,
-                                                           FActiveGameplayEffectHandle ActiveGameplayEffectHandle)
+void UGASAbilitySystemComponentBase::GameplayEffectApplied(UAbilitySystemComponent* TargetASC, const FGameplayEffectSpec& SourceGES, FActiveGameplayEffectHandle ActiveGameplayEffectHandle)
 {
 	FGameplayTagContainer GameplayTagContainer;
 	SourceGES.GetAllAssetTags(GameplayTagContainer);

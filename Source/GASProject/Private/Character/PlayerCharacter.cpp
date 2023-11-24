@@ -56,7 +56,7 @@ void APlayerCharacter::InitAbilitySystemInfor()
 	GASHud = Cast<AGASHUD>(GASPlayerController->GetHUD());
 
 	FWidgetControllerStruct WidgetControllerStruct(GASPlayerController, GASPlayerState, AbilitySystemComponent, AttributeSet);
-	GASHud->InitWidgetController(WidgetControllerStruct);
+	if (GASHud) GASHud->InitWidgetController(WidgetControllerStruct);
 	
 }
 
