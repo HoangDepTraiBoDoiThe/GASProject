@@ -11,7 +11,7 @@ void UGASWidgetController::InitWidgetControllerStruct(FWidgetControllerStruct Ne
 	                                                 NewWidgetControllerStruct.AttributeSet);
 }
 
-void UGASWidgetController::BroadCastInitProperties()
+void UGASWidgetController::BroadCastInitAttributesValue()
 {
 }
 

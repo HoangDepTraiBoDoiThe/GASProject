@@ -6,6 +6,7 @@
 #include "UI/WidgetController/GASWidgetController.h"
 #include "OverlayWidgetController.generated.h"
 
+class UAttributeMenuWidgetController;
 class UGASUserWidget;
 
 USTRUCT(BlueprintType)
@@ -62,13 +63,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UDataTable> MessageWidgetDataTable;
 	
-	virtual void BroadCastInitProperties() override;
+	virtual void BroadCastInitAttributesValue() override;
 	
 	virtual void BroadCastOnGameplayAttributeValueChange() override;
 
 	template<typename T>
 	static T* GetDataTableRow(UDataTable* DataTable, const FGameplayTag& GameplayTag);
-	
 };
 
 template <typename T>

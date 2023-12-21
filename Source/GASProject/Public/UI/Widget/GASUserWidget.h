@@ -17,11 +17,11 @@ class GASPROJECT_API UGASUserWidget : public UUserWidget
 
 public:
 	UFUNCTION(BlueprintCallable)
-	void SetWidgetController(UOverlayWidgetController* NewWidgetController);
+	void SetWidgetController(UGASWidgetController* NewWidgetController);
 	
 protected:
 	UPROPERTY(BlueprintReadOnly)
-	TObjectPtr<class UOverlayWidgetController> WidgetController;
+	TObjectPtr<UGASWidgetController> WidgetController;
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void WidgetControllerSet();

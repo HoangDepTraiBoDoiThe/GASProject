@@ -44,8 +44,10 @@ class GASPROJECT_API UGASWidgetController : public UObject
 
 public:
 	void InitWidgetControllerStruct(FWidgetControllerStruct NewWidgetControllerStruct);
-	
-	virtual void BroadCastInitProperties();
+
+	UFUNCTION(BlueprintCallable)
+	virtual void BroadCastInitAttributesValue();
+	UFUNCTION(BlueprintCallable)
 	virtual void BroadCastOnGameplayAttributeValueChange();
 	
 protected:

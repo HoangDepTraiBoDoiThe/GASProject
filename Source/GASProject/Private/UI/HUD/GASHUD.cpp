@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "Player/GASPlayerController.h"
 #include "UI/Widget/GASUserWidget.h"
+#include "UI/WidgetController/AttributeMenuWidgetController.h"
 #include "UI/WidgetController/GASWidgetController.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
 
@@ -23,13 +24,37 @@ void AGASHUD::InitWidgetController(FWidgetControllerStruct WidgetControllerStruc
 	OverlayProgressWidget = Cast<UGASUserWidget>(CreateWidget(GetWorld(), OverlayProgressWidgetClass));
 	OverlayProgressWidget->AddToViewport();
 
-	WidgetController = NewObject<UOverlayWidgetController>(this, WidgetControllerClass);
-	WidgetController->InitWidgetControllerStruct(WidgetControllerStruct);
+	GetOverlayWidgetController(WidgetControllerStruct);
+	GetAttributeMenuWidgetController(WidgetControllerStruct);
 
-	if (WidgetController && OverlayProgressWidget)
+	if (OverlayWidgetController && OverlayProgressWidget)
 	{
-		OverlayProgressWidget->SetWidgetController(WidgetController);
-		WidgetController->BroadCastInitProperties();
-		WidgetController->BroadCastOnGameplayAttributeValueChange();
+		OverlayProgressWidget->SetWidgetController(OverlayWidgetController);
+		OverlayWidgetController->BroadCastInitAttributesValue();
+		OverlayWidgetController->BroadCastOnGameplayAttributeValueChange();
 	}
+}
+
+UOverlayWidgetController* AGASHUD::GetOverlayWidgetController(FWidgetControllerStruct WidgetControllerStruct)
+{
+	if (!OverlayWidgetController)
+	{
+		OverlayWidgetController = NewObject<UOverlayWidgetController>(this, OverlayWidgetControllerClass);
+		OverlayWidgetController->InitWidgetControllerStruct(WidgetControllerStruct);
+		return OverlayWidgetController.Get();
+	}
+
+	return OverlayWidgetController.Get();
+}
+
+UAttributeMenuWidgetController* AGASHUD::GetAttributeMenuWidgetController(FWidgetControllerStruct WidgetControllerStruct)
+{
+	if (!AttributeMenuWidgetController)
+	{
+		AttributeMenuWidgetController = NewObject<UAttributeMenuWidgetController>(this, AttributeMenuWidgetControllerClass);
+		AttributeMenuWidgetController->InitWidgetControllerStruct(WidgetControllerStruct);
+		return AttributeMenuWidgetController.Get();
+	}
+
+	return AttributeMenuWidgetController.Get();
 }

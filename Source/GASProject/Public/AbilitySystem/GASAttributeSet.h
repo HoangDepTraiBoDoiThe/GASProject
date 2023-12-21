@@ -16,6 +16,8 @@
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+struct FGASGameplayTags;
+
 UCLASS()
 class GASPROJECT_API UGASAttributeSet : public UAttributeSet
 {
@@ -23,11 +25,14 @@ class GASPROJECT_API UGASAttributeSet : public UAttributeSet
 
 public:
 	UGASAttributeSet();
+
+	TMap<FGameplayTag, TBaseStaticDelegateInstance<FGameplayAttribute(), FDefaultDelegateUserPolicy>::FFuncPtr> GameplayAttributeByTag;
+	
 	ATTRIBUTE_ACCESSORS(UGASAttributeSet, Strength)
 	ATTRIBUTE_ACCESSORS(UGASAttributeSet, Intelligent);
 	ATTRIBUTE_ACCESSORS(UGASAttributeSet, Vigor)
 	ATTRIBUTE_ACCESSORS(UGASAttributeSet, Resillience)
-	
+
 	ATTRIBUTE_ACCESSORS(UGASAttributeSet, MaxHitPoint)
 	ATTRIBUTE_ACCESSORS(UGASAttributeSet, HitPoint)
 	ATTRIBUTE_ACCESSORS(UGASAttributeSet, Mana)

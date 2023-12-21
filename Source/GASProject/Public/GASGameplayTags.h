@@ -43,8 +43,8 @@ public:
 	FGameplayTag Attribute_Secondary_MaxHitPoint;
 	FGameplayTag Attribute_Secondary_MaxMana;
 
-private:
 
-	
+private:
 	static FGASGameplayTags GASGameplayTags;
+
 };

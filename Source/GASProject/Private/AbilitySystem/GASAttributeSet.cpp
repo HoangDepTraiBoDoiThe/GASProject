@@ -5,10 +5,28 @@
 
 #include "AbilitySystemComponent.h"
 #include "GameplayEffectExtension.h"
+#include "GASGameplayTags.h"
 #include "Net/UnrealNetwork.h"
+
+FGASGameplayTags FGASGameplayTags::GASGameplayTags;
 
 UGASAttributeSet::UGASAttributeSet()
 {
+	GameplayAttributeByTag.Add(FGASGameplayTags::Get().Attribute_Primary_Vigor, GetVigorAttribute);
+	GameplayAttributeByTag.Add(FGASGameplayTags::Get().Attribute_Primary_Strength, GetStrengthAttribute);
+	GameplayAttributeByTag.Add(FGASGameplayTags::Get().Attribute_Primary_Intelligence, GetIntelligentAttribute);
+	GameplayAttributeByTag.Add(FGASGameplayTags::Get().Attribute_Primary_Resilience, GetResillienceAttribute);
+	
+	GameplayAttributeByTag.Add(FGASGameplayTags::Get().Attribute_Secondary_Armor, GetArmorAttribute);
+	GameplayAttributeByTag.Add(FGASGameplayTags::Get().Attribute_Secondary_ArmorPenetration, GetArmorPenetrationAttribute);
+	GameplayAttributeByTag.Add(FGASGameplayTags::Get().Attribute_Secondary_BlockChance, GetBlockChanceAttribute);
+	GameplayAttributeByTag.Add(FGASGameplayTags::Get().Attribute_Secondary_CriticalHitChance, GetCriticalHitChanceAttribute);
+	GameplayAttributeByTag.Add(FGASGameplayTags::Get().Attribute_Secondary_CriticalHitDamage, GetCriticalHitDamageAttribute);
+	GameplayAttributeByTag.Add(FGASGameplayTags::Get().Attribute_Secondary_CriticalHitResistance, GetCriticalHitResistanceAttribute);
+	GameplayAttributeByTag.Add(FGASGameplayTags::Get().Attribute_Secondary_HealthRegeneration, GetHealthRegenerationAttribute);
+	GameplayAttributeByTag.Add(FGASGameplayTags::Get().Attribute_Secondary_ManaRegeneration, GetManaRegenerationAttribute);
+	GameplayAttributeByTag.Add(FGASGameplayTags::Get().Attribute_Secondary_MaxMana, GetMaxManaAttribute);
+	GameplayAttributeByTag.Add(FGASGameplayTags::Get().Attribute_Secondary_MaxHitPoint, GetMaxHitPointAttribute);
 }
 
 void UGASAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -23,6 +41,8 @@ void UGASAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, Intelligent, COND_None, REPNOTIFY_Always)
 	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, Vigor, COND_None, REPNOTIFY_Always)
 	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, Resillience, COND_None, REPNOTIFY_Always)
+
+	
 }
 
 void UGASAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)

@@ -5,7 +5,7 @@
 
 #include "UI/WidgetController/OverlayWidgetController.h"
 
-void UGASUserWidget::SetWidgetController(UOverlayWidgetController* NewWidgetController)
+void UGASUserWidget::SetWidgetController(UGASWidgetController* NewWidgetController)
 {
 	WidgetController = NewWidgetController;
 	WidgetControllerSet();

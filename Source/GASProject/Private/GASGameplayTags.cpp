@@ -4,7 +4,6 @@
 #include "..\Public\GASGameplayTags.h"
 #include "GameplayTagsManager.h"
 
-FGASGameplayTags FGASGameplayTags::GASGameplayTags;
 
 void FGASGameplayTags::InitializeGASGameplayTags()
 {
@@ -46,9 +45,15 @@ void FGASGameplayTags::InitializeGASGameplayTags()
 	GASGameplayTags.Attribute_Secondary_CriticalHitChance = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attribute.Secondary.CriticalHitChance"), FString("Impacted by 'ArmorPenetration'. Chance to double plus Critical Hit bonus."));	
 
+	GASGameplayTags.Attribute_Secondary_CriticalHitDamage = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attribute.Secondary.CriticalHitDamage"), FString("Impacted by 'ArmorPenetration'. Chance to plus damage."));	
+
 	GASGameplayTags.Attribute_Secondary_CriticalHitResistance = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attribute.Secondary.CriticalHitResistance"), FString("Impacted by 'Armor'. Reduces the critical hit chance of attacking enemies."));	
 
+	GASGameplayTags.Attribute_Secondary_HealthRegeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attribute.Secondary.HealthRegeneration"), FString("Impacted by 'Vigor'. Amount of 'HitPoint' regenerated every 1 second"));
+	
 	GASGameplayTags.Attribute_Secondary_ManaRegeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attribute.Secondary.ManaRegeneration"), FString("Impacted by 'Intelligence'. Amount of 'Mana' regenerated every 1 second"));	
 
