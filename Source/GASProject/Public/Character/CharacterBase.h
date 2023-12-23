@@ -8,6 +8,7 @@
 #include "Interface/GASCombatInterface.h"
 #include "CharacterBase.generated.h"
 
+class UGameplayAbility;
 class UGameplayEffect;
 class UGASAttributeSet;
 class UAttributeSet;
@@ -26,6 +27,7 @@ protected:
 	virtual void InitAbilitySystemInfor();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual void OnRep_PlayerState() override;
+	virtual void AddCharacterAbilities();
 	void SetDefaultAttribute(TSubclassOf<UGameplayEffect> DefaultAttributeGE, int32 Level);
 	virtual void InitializeDefaultAttribute();
 	FORCEINLINE virtual int32 GetCharacterLevel() override {return CharacterLevel;}
@@ -42,4 +44,7 @@ protected:
 	TSubclassOf<UGameplayEffect> DefaultSecondaryAttributeClass;
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributeClass;
+
+	UPROPERTY(EditAnywhere, Category = "Abilities")
+	TArray<TSubclassOf<UGameplayAbility>> CharacterAbilities;
 };

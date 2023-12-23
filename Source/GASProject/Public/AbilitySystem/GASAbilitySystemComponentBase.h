@@ -18,6 +18,7 @@ class GASPROJECT_API UGASAbilitySystemComponentBase : public UAbilitySystemCompo
 
 public:
 	void AbilityActorInfoSet();
+	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>&);
 	virtual void BeginPlay() override;
 
 	FGameplayEffectTagsDelegate GameplayEffectTagsDelegate;

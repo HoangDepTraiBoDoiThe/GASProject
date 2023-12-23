@@ -8,6 +8,15 @@ void UGASAbilitySystemComponentBase::AbilityActorInfoSet()
 	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UGASAbilitySystemComponentBase::GameplayEffectApplied);
 }
 
+void UGASAbilitySystemComponentBase::AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& AbilityClasses)
+{
+	for (const TSubclassOf<UGameplayAbility> AbilityClass : AbilityClasses)
+	{
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass);
+		GiveAbilityAndActivateOnce(AbilitySpec);
+	}
+}
+
 void UGASAbilitySystemComponentBase::BeginPlay()
 {
 	Super::BeginPlay();

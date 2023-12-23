@@ -4,6 +4,7 @@
 #include "Character/CharacterBase.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/GASAbilitySystemComponentBase.h"
 
 ACharacterBase::ACharacterBase()
 {
@@ -31,6 +32,13 @@ void ACharacterBase::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
 	
+}
+
+void ACharacterBase::AddCharacterAbilities()
+{
+	if (!HasAuthority()) return;
+	UGASAbilitySystemComponentBase* AbilitySystemComponentBase = CastChecked<UGASAbilitySystemComponentBase>(AbilitySystemComponent);
+	AbilitySystemComponentBase->AddCharacterAbilities(CharacterAbilities);
 }
 
 void ACharacterBase::SetDefaultAttribute(TSubclassOf<UGameplayEffect> DefaultAttributeGE, int32 Level)
