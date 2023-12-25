@@ -7,8 +7,8 @@
 #include "GameplayEffectExtension.h"
 #include "GASGameplayTags.h"
 #include "Net/UnrealNetwork.h"
+#include "Runtime/Core/Tests/Containers/TestUtils.h"
 
-FGASGameplayTags FGASGameplayTags::GASGameplayTags;
 
 UGASAttributeSet::UGASAttributeSet()
 {

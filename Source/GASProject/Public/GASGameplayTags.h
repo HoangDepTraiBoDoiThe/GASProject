@@ -11,7 +11,6 @@ struct FGameplayTag;
  */
 struct FGASGameplayTags
 {
-public:
 	static FGASGameplayTags& Get() { return GASGameplayTags; }
 	static void InitializeGASGameplayTags();
 
@@ -42,6 +41,12 @@ public:
 	FGameplayTag Attribute_Secondary_ManaRegeneration;
 	FGameplayTag Attribute_Secondary_MaxHitPoint;
 	FGameplayTag Attribute_Secondary_MaxMana;
+
+	/*
+	 * Input Tags 
+	 */
+	FGameplayTag Control_Movement;
+	FGameplayTag Test_Ability_1;
 
 
 private:

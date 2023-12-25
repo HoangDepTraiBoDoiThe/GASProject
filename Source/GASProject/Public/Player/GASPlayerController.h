@@ -3,10 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GASGameplayTags.h"
 #include "InputActionValue.h"
 #include "GameFramework/PlayerController.h"
 #include "GASPlayerController.generated.h"
 
+class UInputDataAsset;
+class APlayerCharacter;
 class IEnemyInterface;
 /**
  * 
@@ -27,6 +30,16 @@ protected:
 	virtual void SetupInputComponent() override;
 	virtual void Tick(float DeltaSeconds) override;
 
+	void InputPressedFunc(FGameplayTag);
+	void InputReleasedFunc(FGameplayTag);
+	void InputHeldedFunc(FGameplayTag);
+	APlayerCharacter* GetPlayerCharacter();
+	UPROPERTY()
+	APlayerCharacter* PlayerCharacter;
+	
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputDataAsset* InputDataAsset;
+	
 	UPROPERTY(EditAnywhere, Category= "Character")
 	UInputMappingContext* InputMappingContext;
 
@@ -35,6 +48,7 @@ protected:
 
 	IEnemyInterface* CurrentFrameUnderTrace;
 	IEnemyInterface* LastFrameUnderTrace;
+	
 
 	UFUNCTION()
 	void InputActionMove(const FInputActionValue& InputActionValue);

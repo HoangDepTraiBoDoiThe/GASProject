@@ -3,9 +3,9 @@
 #include "Player/GASPlayerController.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "Character/EnemyCharacter.h"
+#include "Character/PlayerCharacter.h"
+#include "Input/GASEnhancedInputComponent.h"
 #include "Interface/Interaction/IEnemyInterface.h"
-#include "Kismet/KismetMathLibrary.h"
 
 void AGASPlayerController::BeginPlay()
 {
@@ -27,8 +27,22 @@ void AGASPlayerController::SetupInputComponent()
 	UEnhancedInputLocalPlayerSubsystem* EnhancedInputLocalPlayer = ULocalPlayer::GetSubsystem<
 		UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 	EnhancedInputLocalPlayer->AddMappingContext(InputMappingContext, 0);
-	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
-	EnhancedInputComponent->BindAction(IAMove, ETriggerEvent::Triggered,this, &ThisClass::InputActionMove);
+	UGASEnhancedInputComponent* EnhancedInputComponent = CastChecked<UGASEnhancedInputComponent>(InputComponent);
+	EnhancedInputComponent->BindAction(IAMove, ETriggerEvent::Triggered, this, &ThisClass::InputActionMove);
+	EnhancedInputComponent->BindCustomInputs(InputDataAsset, this, &ThisClass::InputPressedFunc, &ThisClass::InputReleasedFunc, &ThisClass::InputHeldedFunc);
+}
+
+void AGASPlayerController::InputPressedFunc(FGameplayTag GameplayTag)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, FString::Printf(TEXT("%s"), *GameplayTag.ToString()));
+}
+
+void AGASPlayerController::InputReleasedFunc(FGameplayTag GameplayTag)
+{
+}
+
+void AGASPlayerController::InputHeldedFunc(FGameplayTag GameplayTag)
+{
 }
 
 void AGASPlayerController::Tick(float DeltaSeconds)
@@ -38,6 +52,15 @@ void AGASPlayerController::Tick(float DeltaSeconds)
 	CursorTrace();
 }
 
+APlayerCharacter* AGASPlayerController::GetPlayerCharacter()
+{
+	if (!PlayerCharacter)
+	{
+		PlayerCharacter = CastChecked<APlayerCharacter>(GetPawn());
+	}	
+	return PlayerCharacter;
+}
+
 void AGASPlayerController::InputActionMove(const FInputActionValue& InputActionValue)
 {
 	FVector2d Value = InputActionValue.Get<FVector2d>();
@@ -45,7 +68,7 @@ void AGASPlayerController::InputActionMove(const FInputActionValue& InputActionV
 	FRotator Rotation = FRotator(0.f, GetControlRotation().Yaw, 0.f);
 	FVector ForwardVector = FRotationMatrix(Rotation).GetUnitAxis(EAxis::X);
 	FVector RightVector = FRotationMatrix(Rotation).GetUnitAxis(EAxis::Y);
-	
+
 	GetPawn()->AddMovementInput(ForwardVector, Value.Y);
 	GetPawn()->AddMovementInput(RightVector, Value.X);
 }

@@ -30,7 +30,7 @@ void APlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	InitAbilitySystemInfor();
+	InitAbilitySystemInfo();
 	AddCharacterAbilities();
 }
 
@@ -38,10 +38,10 @@ void APlayerCharacter::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
 
-	InitAbilitySystemInfor();
+	InitAbilitySystemInfo();
 }
 
-void APlayerCharacter::InitAbilitySystemInfor()
+void APlayerCharacter::InitAbilitySystemInfo()
 {
 	AGASPlayerState* GASPlayerState = Cast<AGASPlayerState>(GetPlayerState());
 	check(GASPlayerState)

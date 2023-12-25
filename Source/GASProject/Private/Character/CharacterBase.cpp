@@ -18,7 +18,7 @@ void ACharacterBase::BeginPlay()
 	
 }
 
-void ACharacterBase::InitAbilitySystemInfor()
+void ACharacterBase::InitAbilitySystemInfo()
 {
 
 }

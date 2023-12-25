@@ -24,7 +24,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-	virtual void InitAbilitySystemInfor();
+	virtual void InitAbilitySystemInfo();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual void OnRep_PlayerState() override;
 	virtual void AddCharacterAbilities();

@@ -22,7 +22,7 @@ void AEnemyCharacter::BeginPlay()
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }
 
-void AEnemyCharacter::InitAbilitySystemInfor()
+void AEnemyCharacter::InitAbilitySystemInfo()
 {
 }
 
