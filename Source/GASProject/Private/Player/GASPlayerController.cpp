@@ -6,6 +6,8 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameplayAbilityBlueprint.h"
+#include "NavigationPath.h"
+#include "NavigationSystem.h"
 #include "AbilitySystem/GASAbilitySystemComponentBase.h"
 #include "Character/PlayerCharacter.h"
 #include "Components/SplineComponent.h"
@@ -45,7 +47,7 @@ void AGASPlayerController::SetupInputComponent()
 
 void AGASPlayerController::InputPressedFunc(FGameplayTag GameplayTag)
 {
-	if (GameplayTag.MatchesTagExact(FGASGameplayTags::Get().Control_Movement))
+	if (GameplayTag.MatchesTagExact(FGASGameplayTags::Get().Control_LMB))
 	{
 		bTargeting = CurrentEnemy ? true : false;
 		bAutoRunning = false;
@@ -56,8 +58,31 @@ void AGASPlayerController::InputReleasedFunc(FGameplayTag GameplayTag)
 {
 	if (!isASC_Valid()) return;
 	ASC->AbilityInputReleased(GameplayTag);
+	if (!GameplayTag.MatchesTagExact(FGASGameplayTags::Get().Control_LMB))
+	{
+		ASC->AbilityInputHeld(GameplayTag);
+		return;
+	}
 
-	
+	if (FollowTime <= ShortPressThreshold)
+	{
+		FHitResult HitResult;
+		GetHitResultUnderCursor(ECC_Visibility, false, HitResult);
+		if (HitResult.bBlockingHit)
+		{
+			if (UNavigationPath* NavigationPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, GetPlayerCharacter()->GetActorLocation(), HitResult.ImpactPoint))
+			{
+				Spline->ClearSplinePoints();
+				for (FVector& Point : NavigationPath->PathPoints)
+				{
+					Spline->AddSplinePoint(Point, ESplineCoordinateSpace::World);
+					DrawDebugCapsule(GetWorld(), Point, 5.f, 5.f, FQuat(FRotator::ZeroRotator), FColor::Black, false, 5.f);
+				}
+			}
+		}
+	}
+
+	FollowTime = 0;
 }
 
 void AGASPlayerController::InputHeldFunc(FGameplayTag GameplayTag)
