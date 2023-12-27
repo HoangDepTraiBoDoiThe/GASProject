@@ -2,6 +2,7 @@
 
 
 #include "AbilitySystem/GASAbilitySystemComponentBase.h"
+#include "AbilitySystem/Ability/MyGameplayAbility.h"
 
 void UGASAbilitySystemComponentBase::AbilityActorInfoSet()
 {
@@ -13,17 +14,55 @@ void UGASAbilitySystemComponentBase::AddCharacterAbilities(const TArray<TSubclas
 	for (const TSubclassOf<UGameplayAbility> AbilityClass : AbilityClasses)
 	{
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass);
-		GiveAbilityAndActivateOnce(AbilitySpec);
+		if (const UMyGameplayAbility* MyGameplayAbility = Cast<UMyGameplayAbility>(AbilitySpec.Ability))
+		{
+			AbilitySpec.DynamicAbilityTags.AddTag(MyGameplayAbility->StartupGameplayTag);
+			GiveAbility(AbilitySpec);
+		}
+	}
+}
+
+void UGASAbilitySystemComponentBase::AbilityInputPressed(FGameplayTag& InputTag)
+{
+}
+
+void UGASAbilitySystemComponentBase::AbilityInputHeld(const FGameplayTag& InputTag)
+{
+	for (FGameplayAbilitySpec& spec : GetActivatableAbilities())
+	{
+		check(spec.Ability)
+		if (!spec.DynamicAbilityTags.HasTagExact(InputTag)) continue;
+		
+		AbilitySpecInputPressed(spec);
+		if (!spec.IsActive())
+		{
+			TryActivateAbility(spec.Handle);
+		}
+	}
+}
+
+void UGASAbilitySystemComponentBase::AbilityInputReleased(FGameplayTag& InputTag)
+{
+	for (FGameplayAbilitySpec& spec : GetActivatableAbilities())
+	{
+		check(spec.Ability)
+		if (!spec.DynamicAbilityTags.HasTagExact(InputTag)) continue;
+		
+		if (spec.Ability->IsActive())
+		{
+			AbilitySpecInputReleased(spec);
+		}
 	}
 }
 
 void UGASAbilitySystemComponentBase::BeginPlay()
 {
 	Super::BeginPlay();
-
 }
 
-void UGASAbilitySystemComponentBase::GameplayEffectApplied(UAbilitySystemComponent* TargetASC, const FGameplayEffectSpec& SourceGES, FActiveGameplayEffectHandle ActiveGameplayEffectHandle)
+void UGASAbilitySystemComponentBase::GameplayEffectApplied(UAbilitySystemComponent* TargetASC,
+                                                           const FGameplayEffectSpec& SourceGES,
+                                                           FActiveGameplayEffectHandle ActiveGameplayEffectHandle)
 {
 	FGameplayTagContainer GameplayTagContainer;
 	SourceGES.GetAllAssetTags(GameplayTagContainer);

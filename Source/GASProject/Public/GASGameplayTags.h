@@ -46,6 +46,8 @@ struct FGASGameplayTags
 	 * Input Tags 
 	 */
 	FGameplayTag Control_Movement;
+	FGameplayTag Control_LMB;
+	FGameplayTag Control_RMB;
 	FGameplayTag Test_Ability_1;
 
 

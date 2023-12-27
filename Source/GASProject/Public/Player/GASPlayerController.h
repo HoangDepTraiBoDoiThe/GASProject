@@ -8,6 +8,7 @@
 #include "GameFramework/PlayerController.h"
 #include "GASPlayerController.generated.h"
 
+class UGASAbilitySystemComponentBase;
 class UInputDataAsset;
 class APlayerCharacter;
 class IEnemyInterface;
@@ -23,7 +24,7 @@ class GASPROJECT_API AGASPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
-
+	bool isASC_Valid();
 	
 protected:
 	virtual void BeginPlay() override;
@@ -32,7 +33,7 @@ protected:
 
 	void InputPressedFunc(FGameplayTag);
 	void InputReleasedFunc(FGameplayTag);
-	void InputHeldedFunc(FGameplayTag);
+	void InputHeldFunc(FGameplayTag);
 	APlayerCharacter* GetPlayerCharacter();
 	UPROPERTY()
 	APlayerCharacter* PlayerCharacter;
@@ -48,7 +49,9 @@ protected:
 
 	IEnemyInterface* CurrentFrameUnderTrace;
 	IEnemyInterface* LastFrameUnderTrace;
-	
+
+	UPROPERTY()
+	UGASAbilitySystemComponentBase* ASC;
 
 	UFUNCTION()
 	void InputActionMove(const FInputActionValue& InputActionValue);

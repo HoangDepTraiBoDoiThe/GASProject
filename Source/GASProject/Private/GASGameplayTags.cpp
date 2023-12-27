@@ -83,5 +83,7 @@ void FGASGameplayTags::InitializeGASGameplayTags()
 	*	Input
 	*/
 	GASGameplayTags.Control_Movement = UGameplayTagsManager::Get().AddNativeGameplayTag("Control.Movement", "Character movement");
+	GASGameplayTags.Control_LMB = UGameplayTagsManager::Get().AddNativeGameplayTag("Control.LMB", "Left mouse button");
+	GASGameplayTags.Control_RMB = UGameplayTagsManager::Get().AddNativeGameplayTag("Control.RMB", "Right mouse button");
 	GASGameplayTags.Test_Ability_1 = UGameplayTagsManager::Get().AddNativeGameplayTag("Test.Ability.1", "ForTesting");
 }

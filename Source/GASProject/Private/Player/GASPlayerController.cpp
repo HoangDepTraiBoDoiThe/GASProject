@@ -1,8 +1,12 @@
 // Copyright Hoang Dep Trai Bo Doi The
 
 #include "Player/GASPlayerController.h"
+
+#include "AbilitySystemBlueprintLibrary.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "GameplayAbilityBlueprint.h"
+#include "AbilitySystem/GASAbilitySystemComponentBase.h"
 #include "Character/PlayerCharacter.h"
 #include "Input/GASEnhancedInputComponent.h"
 #include "Interface/Interaction/IEnemyInterface.h"
@@ -29,20 +33,33 @@ void AGASPlayerController::SetupInputComponent()
 	EnhancedInputLocalPlayer->AddMappingContext(InputMappingContext, 0);
 	UGASEnhancedInputComponent* EnhancedInputComponent = CastChecked<UGASEnhancedInputComponent>(InputComponent);
 	EnhancedInputComponent->BindAction(IAMove, ETriggerEvent::Triggered, this, &ThisClass::InputActionMove);
-	EnhancedInputComponent->BindCustomInputs(InputDataAsset, this, &ThisClass::InputPressedFunc, &ThisClass::InputReleasedFunc, &ThisClass::InputHeldedFunc);
+	EnhancedInputComponent->BindCustomInputs(InputDataAsset, this, &ThisClass::InputPressedFunc, &ThisClass::InputReleasedFunc, &ThisClass::InputHeldFunc);
 }
 
 void AGASPlayerController::InputPressedFunc(FGameplayTag GameplayTag)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, FString::Printf(TEXT("%s"), *GameplayTag.ToString()));
+
 }
 
 void AGASPlayerController::InputReleasedFunc(FGameplayTag GameplayTag)
 {
+	if (!isASC_Valid()) return;
+	ASC->AbilityInputReleased(GameplayTag);
 }
 
-void AGASPlayerController::InputHeldedFunc(FGameplayTag GameplayTag)
+void AGASPlayerController::InputHeldFunc(FGameplayTag GameplayTag)
 {
+	if (!isASC_Valid()) return;
+	ASC->AbilityInputHeld(GameplayTag);
+}
+
+bool AGASPlayerController::isASC_Valid()
+{
+	if (!ASC)
+	{
+		ASC = Cast<UGASAbilitySystemComponentBase>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn()));
+	}
+	return ASC != nullptr;
 }
 
 void AGASPlayerController::Tick(float DeltaSeconds)

@@ -35,8 +35,11 @@ void UGASEnhancedInputComponent::BindCustomInputs(const UInputDataAsset* InputDa
 	{
 		if (!InputTag.IsValid() || !InputAction)
 			continue;
-		BindAction(InputAction, ETriggerEvent::Completed, Object, ReleasedFunc, InputTag);
+		check(HeldFunc)
+		check(HeldFunc)
+		check(HeldFunc)
 		BindAction(InputAction, ETriggerEvent::Triggered, Object, HeldFunc, InputTag);
+		BindAction(InputAction, ETriggerEvent::Completed, Object, ReleasedFunc, InputTag);
 		BindAction(InputAction, ETriggerEvent::Started, Object, PressedFunc, InputTag);
 	}
 }
