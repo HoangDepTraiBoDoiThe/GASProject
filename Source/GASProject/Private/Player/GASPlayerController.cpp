@@ -8,8 +8,14 @@
 #include "GameplayAbilityBlueprint.h"
 #include "AbilitySystem/GASAbilitySystemComponentBase.h"
 #include "Character/PlayerCharacter.h"
+#include "Components/SplineComponent.h"
 #include "Input/GASEnhancedInputComponent.h"
 #include "Interface/Interaction/IEnemyInterface.h"
+
+AGASPlayerController::AGASPlayerController()
+{
+	Spline = CreateDefaultSubobject<USplineComponent>("Spline");
+}
 
 void AGASPlayerController::BeginPlay()
 {
@@ -33,24 +39,45 @@ void AGASPlayerController::SetupInputComponent()
 	EnhancedInputLocalPlayer->AddMappingContext(InputMappingContext, 0);
 	UGASEnhancedInputComponent* EnhancedInputComponent = CastChecked<UGASEnhancedInputComponent>(InputComponent);
 	EnhancedInputComponent->BindAction(IAMove, ETriggerEvent::Triggered, this, &ThisClass::InputActionMove);
-	EnhancedInputComponent->BindCustomInputs(InputDataAsset, this, &ThisClass::InputPressedFunc, &ThisClass::InputReleasedFunc, &ThisClass::InputHeldFunc);
+	EnhancedInputComponent->BindCustomInputs(InputDataAsset, this, &ThisClass::InputPressedFunc,
+	                                         &ThisClass::InputReleasedFunc, &ThisClass::InputHeldFunc);
 }
 
 void AGASPlayerController::InputPressedFunc(FGameplayTag GameplayTag)
 {
-
+	if (GameplayTag.MatchesTagExact(FGASGameplayTags::Get().Control_Movement))
+	{
+		bTargeting = CurrentEnemy ? true : false;
+		bAutoRunning = false;
+	}
 }
 
 void AGASPlayerController::InputReleasedFunc(FGameplayTag GameplayTag)
 {
 	if (!isASC_Valid()) return;
 	ASC->AbilityInputReleased(GameplayTag);
+
+	
 }
 
 void AGASPlayerController::InputHeldFunc(FGameplayTag GameplayTag)
 {
 	if (!isASC_Valid()) return;
-	ASC->AbilityInputHeld(GameplayTag);
+
+	if (!GameplayTag.MatchesTagExact(FGASGameplayTags::Get().Control_LMB) || bTargeting)
+	{
+		ASC->AbilityInputHeld(GameplayTag);
+		return;
+	}
+
+	FHitResult HitResult;
+	GetHitResultUnderCursor(ECC_Visibility, false, HitResult);
+	if (HitResult.bBlockingHit)
+	{
+		FollowTime += GetWorld()->GetDeltaSeconds();
+		CachedDestination = (HitResult.ImpactPoint - GetPlayerCharacter()->GetActorLocation()).GetSafeNormal();
+		GetPawn()->AddMovementInput(CachedDestination);
+	}
 }
 
 bool AGASPlayerController::isASC_Valid()
@@ -74,7 +101,7 @@ APlayerCharacter* AGASPlayerController::GetPlayerCharacter()
 	if (!PlayerCharacter)
 	{
 		PlayerCharacter = CastChecked<APlayerCharacter>(GetPawn());
-	}	
+	}
 	return PlayerCharacter;
 }
 
@@ -95,37 +122,25 @@ void AGASPlayerController::CursorTrace()
 	FHitResult HitResult;
 	GetHitResultUnderCursor(ECC_Visibility, false, HitResult);
 
-	LastFrameUnderTrace = CurrentFrameUnderTrace;
-	CurrentFrameUnderTrace = Cast<IEnemyInterface>(HitResult.GetActor());
+	IEnemyInterface* PreviousEnemy = LastFrameUnderTrace;
+	CurrentEnemy = Cast<IEnemyInterface>(HitResult.GetActor());
 
-	if (LastFrameUnderTrace == nullptr)
+	LastFrameUnderTrace = CurrentEnemy;
+
+	if (PreviousEnemy != CurrentEnemy)
 	{
-		if (CurrentFrameUnderTrace)
+		if (PreviousEnemy)
 		{
-			CurrentFrameUnderTrace->HighlightEnemy();
+			PreviousEnemy->UnHighlightEnemy();
 		}
-		else if (CurrentFrameUnderTrace == nullptr)
+
+		if (CurrentEnemy)
 		{
-			// TODO: Nothing
+			CurrentEnemy->HighlightEnemy();
 		}
 	}
-	else if (LastFrameUnderTrace)
+	else if (CurrentEnemy)
 	{
-		if (CurrentFrameUnderTrace)
-		{
-			if (CurrentFrameUnderTrace == LastFrameUnderTrace)
-			{
-				CurrentFrameUnderTrace->HighlightEnemy();
-			}
-			else if (CurrentFrameUnderTrace != LastFrameUnderTrace)
-			{
-				CurrentFrameUnderTrace->HighlightEnemy();
-				LastFrameUnderTrace->UnHighlightEnemy();
-			}
-		}
-		else if (CurrentFrameUnderTrace == nullptr)
-		{
-			LastFrameUnderTrace->UnHighlightEnemy();
-		}
+		CurrentEnemy->HighlightEnemy();
 	}
 }

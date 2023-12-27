@@ -8,6 +8,7 @@
 #include "GameFramework/PlayerController.h"
 #include "GASPlayerController.generated.h"
 
+class USplineComponent;
 class UGASAbilitySystemComponentBase;
 class UInputDataAsset;
 class APlayerCharacter;
@@ -27,6 +28,8 @@ public:
 	bool isASC_Valid();
 	
 protected:
+	AGASPlayerController();
+	
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 	virtual void Tick(float DeltaSeconds) override;
@@ -53,6 +56,20 @@ protected:
 	UPROPERTY()
 	UGASAbilitySystemComponentBase* ASC;
 
+	IEnemyInterface* CurrentEnemy;
+
+	FVector CachedDestination = FVector::ZeroVector;
+	float FollowTime = 0.f;
+	float ShortPressThreshold = 0.5f;
+	bool bAutoRunning = false;
+	bool bTargeting = false;
+
+	UPROPERTY(EditDefaultsOnly)
+	float AutoRunAcceptanceRadius = 50.f;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USplineComponent> Spline;
+	
 	UFUNCTION()
 	void InputActionMove(const FInputActionValue& InputActionValue);
 	void CursorTrace();
