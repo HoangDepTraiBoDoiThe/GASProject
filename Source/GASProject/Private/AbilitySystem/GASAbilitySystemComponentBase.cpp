@@ -1,12 +1,25 @@
 // Copyright Hoang Dep Trai Bo Doi The
 
-
 #include "AbilitySystem/GASAbilitySystemComponentBase.h"
 #include "AbilitySystem/Ability/MyGameplayAbility.h"
 
 void UGASAbilitySystemComponentBase::AbilityActorInfoSet()
 {
-	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UGASAbilitySystemComponentBase::GameplayEffectApplied);
+	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UGASAbilitySystemComponentBase::ClientRPCGameplayEffectApplied);
+}
+
+void UGASAbilitySystemComponentBase::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+void UGASAbilitySystemComponentBase::ClientRPCGameplayEffectApplied_Implementation(UAbilitySystemComponent* TargetASC,
+														   const FGameplayEffectSpec& SourceGES,
+														   FActiveGameplayEffectHandle ActiveGameplayEffectHandle)
+{
+	FGameplayTagContainer GameplayTagContainer;
+	SourceGES.GetAllAssetTags(GameplayTagContainer);
+	GameplayEffectTagsDelegate.Broadcast(GameplayTagContainer);
 }
 
 void UGASAbilitySystemComponentBase::AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& AbilityClasses)
@@ -55,16 +68,3 @@ void UGASAbilitySystemComponentBase::AbilityInputReleased(FGameplayTag& InputTag
 	}
 }
 
-void UGASAbilitySystemComponentBase::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-void UGASAbilitySystemComponentBase::GameplayEffectApplied(UAbilitySystemComponent* TargetASC,
-                                                           const FGameplayEffectSpec& SourceGES,
-                                                           FActiveGameplayEffectHandle ActiveGameplayEffectHandle)
-{
-	FGameplayTagContainer GameplayTagContainer;
-	SourceGES.GetAllAssetTags(GameplayTagContainer);
-	GameplayEffectTagsDelegate.Broadcast(GameplayTagContainer);
-}

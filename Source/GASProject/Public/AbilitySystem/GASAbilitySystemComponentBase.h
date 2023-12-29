@@ -27,7 +27,6 @@ public:
 	FGameplayEffectTagsDelegate GameplayEffectTagsDelegate;
 	
 protected:
-	void GameplayEffectApplied(UAbilitySystemComponent* TargetASC, const FGameplayEffectSpec& SourceGES, FActiveGameplayEffectHandle ActiveGameplayEffectHandle);
-
-	
+	UFUNCTION(Client, Reliable)
+	void ClientRPCGameplayEffectApplied(UAbilitySystemComponent* TargetASC, const FGameplayEffectSpec& SourceGES, FActiveGameplayEffectHandle ActiveGameplayEffectHandle);
 };
