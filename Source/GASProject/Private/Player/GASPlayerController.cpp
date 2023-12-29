@@ -5,7 +5,6 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "GameplayAbilityBlueprint.h"
 #include "NavigationPath.h"
 #include "NavigationSystem.h"
 #include "AbilitySystem/GASAbilitySystemComponentBase.h"
@@ -49,7 +48,7 @@ void AGASPlayerController::InputPressedFunc(FGameplayTag GameplayTag)
 {
 	if (GameplayTag.MatchesTagExact(FGASGameplayTags::Get().Control_LMB))
 	{
-		bTargeting = CurrentEnemy ? true : false;
+		bTargeting = CurrentFrameUnderTrace ? true : false;
 		bAutoRunning = false;
 	}
 }
@@ -57,7 +56,6 @@ void AGASPlayerController::InputPressedFunc(FGameplayTag GameplayTag)
 void AGASPlayerController::InputReleasedFunc(FGameplayTag GameplayTag)
 {
 	if (!isASC_Valid()) return;
-	ASC->AbilityInputReleased(GameplayTag);
 	if (!GameplayTag.MatchesTagExact(FGASGameplayTags::Get().Control_LMB))
 	{
 		ASC->AbilityInputHeld(GameplayTag);
@@ -66,11 +64,9 @@ void AGASPlayerController::InputReleasedFunc(FGameplayTag GameplayTag)
 
 	if (FollowTime <= ShortPressThreshold)
 	{
-		FHitResult HitResult;
-		GetHitResultUnderCursor(ECC_Visibility, false, HitResult);
-		if (HitResult.bBlockingHit)
+		if (MouseTraceResult.bBlockingHit)
 		{
-			if (UNavigationPath* NavigationPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, GetPlayerCharacter()->GetActorLocation(), HitResult.ImpactPoint))
+			if (UNavigationPath* NavigationPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, GetPlayerCharacter()->GetActorLocation(), MouseTraceResult.ImpactPoint))
 			{
 				Spline->ClearSplinePoints();
 				for (FVector& Point : NavigationPath->PathPoints)
@@ -95,38 +91,29 @@ void AGASPlayerController::InputHeldFunc(FGameplayTag GameplayTag)
 		return;
 	}
 
-	FHitResult HitResult;
-	GetHitResultUnderCursor(ECC_Visibility, false, HitResult);
-	if (HitResult.bBlockingHit)
+	if (MouseTraceResult.bBlockingHit)
 	{
 		FollowTime += GetWorld()->GetDeltaSeconds();
-		CachedDestination = (HitResult.ImpactPoint - GetPlayerCharacter()->GetActorLocation()).GetSafeNormal();
+		CachedDestination = (MouseTraceResult.ImpactPoint - GetPlayerCharacter()->GetActorLocation()).GetSafeNormal();
 		GetPawn()->AddMovementInput(CachedDestination);
 	}
 }
 
 bool AGASPlayerController::isASC_Valid()
 {
-	if (!ASC)
-	{
-		ASC = Cast<UGASAbilitySystemComponentBase>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn()));
-	}
+	if (!ASC) ASC = Cast<UGASAbilitySystemComponentBase>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn()));
 	return ASC != nullptr;
 }
 
 void AGASPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-
 	CursorTrace();
 }
 
 APlayerCharacter* AGASPlayerController::GetPlayerCharacter()
 {
-	if (!PlayerCharacter)
-	{
-		PlayerCharacter = CastChecked<APlayerCharacter>(GetPawn());
-	}
+	if (!PlayerCharacter) PlayerCharacter = CastChecked<APlayerCharacter>(GetPawn());
 	return PlayerCharacter;
 }
 
@@ -144,28 +131,17 @@ void AGASPlayerController::InputActionMove(const FInputActionValue& InputActionV
 
 void AGASPlayerController::CursorTrace()
 {
-	FHitResult HitResult;
-	GetHitResultUnderCursor(ECC_Visibility, false, HitResult);
+	GetHitResultUnderCursor(ECC_Visibility, false, MouseTraceResult);
+	PreviousFrameUnderTrace = CurrentFrameUnderTrace;
+	CurrentFrameUnderTrace = Cast<IEnemyInterface>(MouseTraceResult.GetActor());
 
-	IEnemyInterface* PreviousEnemy = LastFrameUnderTrace;
-	CurrentEnemy = Cast<IEnemyInterface>(HitResult.GetActor());
-
-	LastFrameUnderTrace = CurrentEnemy;
-
-	if (PreviousEnemy != CurrentEnemy)
+	if (PreviousFrameUnderTrace != CurrentFrameUnderTrace)
 	{
-		if (PreviousEnemy)
-		{
-			PreviousEnemy->UnHighlightEnemy();
-		}
-
-		if (CurrentEnemy)
-		{
-			CurrentEnemy->HighlightEnemy();
-		}
+		if (PreviousFrameUnderTrace) PreviousFrameUnderTrace->UnHighlightEnemy();
+		if (CurrentFrameUnderTrace) CurrentFrameUnderTrace->HighlightEnemy();
 	}
-	else if (CurrentEnemy)
+	else if (CurrentFrameUnderTrace)
 	{
-		CurrentEnemy->HighlightEnemy();
+		CurrentFrameUnderTrace->HighlightEnemy();
 	}
 }

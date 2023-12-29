@@ -50,13 +50,8 @@ protected:
 	UPROPERTY(EditAnywhere, Category= "Character")
 	UInputAction* IAMove;
 
-	IEnemyInterface* CurrentFrameUnderTrace;
-	IEnemyInterface* LastFrameUnderTrace;
-
 	UPROPERTY()
 	UGASAbilitySystemComponentBase* ASC;
-
-	IEnemyInterface* CurrentEnemy;
 
 	FVector CachedDestination = FVector::ZeroVector;
 	float FollowTime = 0.f;
@@ -73,4 +68,7 @@ protected:
 	UFUNCTION()
 	void InputActionMove(const FInputActionValue& InputActionValue);
 	void CursorTrace();
+	FHitResult MouseTraceResult;
+	IEnemyInterface* CurrentFrameUnderTrace;
+	IEnemyInterface* PreviousFrameUnderTrace;
 };
