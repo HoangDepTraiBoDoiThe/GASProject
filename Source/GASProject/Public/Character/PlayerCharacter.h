@@ -22,11 +22,9 @@ class GASPROJECT_API APlayerCharacter : public ACharacterBase
 public:
 	APlayerCharacter();
 	virtual void BeginPlay() override;
-	virtual void PossessedBy(AController* NewController) override;
-	virtual void OnRep_PlayerState() override;
-	
-protected:
 	virtual void InitAbilitySystemInfo() override;
+
+protected:
 	
 	UPROPERTY(EditAnywhere, Category = "PlayerCharacter")
 	UCameraComponent* PlayerCam;

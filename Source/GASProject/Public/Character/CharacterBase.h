@@ -22,14 +22,22 @@ class GASPROJECT_API ACharacterBase : public ACharacter, public IAbilitySystemIn
 public:
 	ACharacterBase();
 
+	virtual void InitializeDefaultAttribute();
+	virtual void AddCharacterAbilities();
+
+	void SetAbilitySystemComponent(UAbilitySystemComponent* ASC) {AbilitySystemComponent = ASC;}
+	void SetAttributeSet(UGASAttributeSet* attributeSet) {AttributeSet = attributeSet;}
+	[[nodiscard]] TObjectPtr<UGASAttributeSet> GetAttributeSet() const
+	{
+		return AttributeSet;
+	}
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilitySystemInfo();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual void OnRep_PlayerState() override;
-	virtual void AddCharacterAbilities();
 	void SetDefaultAttribute(TSubclassOf<UGameplayEffect> DefaultAttributeGE, int32 Level);
-	virtual void InitializeDefaultAttribute();
 	FORCEINLINE virtual int32 GetCharacterLevel() override {return CharacterLevel;}
 
 	UPROPERTY(EditAnywhere, Category = "Character Properties")

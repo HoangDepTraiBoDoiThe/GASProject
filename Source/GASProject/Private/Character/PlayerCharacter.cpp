@@ -26,21 +26,6 @@ void APlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 }
 
-void APlayerCharacter::PossessedBy(AController* NewController)
-{
-	Super::PossessedBy(NewController);
-
-	InitAbilitySystemInfo();
-	AddCharacterAbilities();
-}
-
-void APlayerCharacter::OnRep_PlayerState()
-{
-	Super::OnRep_PlayerState();
-
-	InitAbilitySystemInfo();
-}
-
 void APlayerCharacter::InitAbilitySystemInfo()
 {
 	AGASPlayerState* GASPlayerState = Cast<AGASPlayerState>(GetPlayerState());

@@ -8,10 +8,13 @@
 #include "NavigationPath.h"
 #include "NavigationSystem.h"
 #include "AbilitySystem/GASAbilitySystemComponentBase.h"
+#include "AbilitySystem/GASAttributeSet.h"
 #include "Character/PlayerCharacter.h"
 #include "Components/SplineComponent.h"
 #include "Input/GASEnhancedInputComponent.h"
 #include "Interface/Interaction/IEnemyInterface.h"
+
+class AGASPlayerState;
 
 AGASPlayerController::AGASPlayerController()
 {
@@ -109,6 +112,21 @@ void AGASPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 	CursorTrace();
+}
+
+void AGASPlayerController::OnPossess(APawn* InPawn)
+{
+	Super::OnPossess(InPawn);
+
+	GetPlayerCharacter()->InitAbilitySystemInfo();
+	GetPlayerCharacter()->AddCharacterAbilities();
+}
+
+void AGASPlayerController::AcknowledgePossession(APawn* P)
+{
+	Super::AcknowledgePossession(P);
+
+	GetPlayerCharacter()->InitAbilitySystemInfo();
 }
 
 APlayerCharacter* AGASPlayerController::GetPlayerCharacter()
