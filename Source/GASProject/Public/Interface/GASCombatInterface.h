@@ -24,4 +24,5 @@ class GASPROJECT_API IGASCombatInterface
 public:
 
 	virtual int32 GetCharacterLevel();
+	virtual FVector GetWeaponSpawnPoint();
 };

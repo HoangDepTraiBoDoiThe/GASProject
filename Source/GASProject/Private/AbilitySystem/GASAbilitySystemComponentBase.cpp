@@ -29,7 +29,7 @@ void UGASAbilitySystemComponentBase::AddCharacterAbilities(const TArray<TSubclas
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass);
 		if (const UMyGameplayAbility* MyGameplayAbility = Cast<UMyGameplayAbility>(AbilitySpec.Ability))
 		{
-			AbilitySpec.DynamicAbilityTags.AddTag(MyGameplayAbility->StartupGameplayTag);
+			AbilitySpec.DynamicAbilityTags.AddTag(MyGameplayAbility->GetStartupGameplayTag());
 			GiveAbility(AbilitySpec);
 		}
 	}

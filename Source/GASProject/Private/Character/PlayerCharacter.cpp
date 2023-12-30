@@ -46,3 +46,7 @@ void APlayerCharacter::InitAbilitySystemInfo()
 	
 }
 
+FVector APlayerCharacter::GetWeaponSpawnPoint()
+{
+	return GetMesh()->GetSocketLocation(WeaponSpawnPoint);
+}

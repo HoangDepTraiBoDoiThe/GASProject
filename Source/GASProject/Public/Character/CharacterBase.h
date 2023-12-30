@@ -40,6 +40,9 @@ protected:
 	void SetDefaultAttribute(TSubclassOf<UGameplayEffect> DefaultAttributeGE, int32 Level);
 	FORCEINLINE virtual int32 GetCharacterLevel() override {return CharacterLevel;}
 
+	UPROPERTY(EditAnywhere, Category = Weapon)
+	FName WeaponSpawnPoint;
+	
 	UPROPERTY(EditAnywhere, Category = "Character Properties")
 	int CharacterLevel{0};
 	

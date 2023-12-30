@@ -8,3 +8,8 @@ int32 IGASCombatInterface::GetCharacterLevel()
 {
 	return 0;
 }
+
+FVector IGASCombatInterface::GetWeaponSpawnPoint()
+{
+	return FVector::Zero();
+}

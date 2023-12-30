@@ -75,7 +75,7 @@ void AGASPlayerController::InputReleasedFunc(FGameplayTag GameplayTag)
 				for (FVector& Point : NavigationPath->PathPoints)
 				{
 					Spline->AddSplinePoint(Point, ESplineCoordinateSpace::World);
-					DrawDebugCapsule(GetWorld(), Point, 5.f, 5.f, FQuat(FRotator::ZeroRotator), FColor::Black, false, 5.f);
+					//DrawDebugCapsule(GetWorld(), Point, 5.f, 5.f, FQuat(FRotator::ZeroRotator), FColor::Black, false, 5.f);
 				}
 			}
 		}

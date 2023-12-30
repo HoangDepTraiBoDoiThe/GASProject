@@ -24,8 +24,9 @@ public:
 	virtual void BeginPlay() override;
 	virtual void InitAbilitySystemInfo() override;
 
+	virtual FVector GetWeaponSpawnPoint() override;
+
 protected:
-	
 	UPROPERTY(EditAnywhere, Category = "PlayerCharacter")
 	UCameraComponent* PlayerCam;
 

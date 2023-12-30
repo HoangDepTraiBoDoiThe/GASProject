@@ -10,7 +10,7 @@ public class GASProject : ModuleRules
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "GameplayAbilities", "GameplayTasks", "GameplayTags", "UMG" });
 
-		PrivateDependencyModuleNames.AddRange(new string[] { "AIModule", "NavigationSystem" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "AIModule", "NavigationSystem", "Niagara" });
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
