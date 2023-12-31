@@ -12,11 +12,16 @@ void UMyGameplayAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle
                                          const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
+	
+}
 
+void UMyGameplayAbility::SpawnProjectile()
+{
+	if (!GetAvatarActorFromActorInfo()->HasAuthority()) return;
 	FTransform Transform;
 	Transform.SetLocation(Cast<APlayerCharacter>(GetAvatarActorFromActorInfo())->GetWeaponSpawnPoint());
 	AProjectile* Projectile = GetWorld()->SpawnActorDeferred<AProjectile>(ProjectileClass, Transform, GetAvatarActorFromActorInfo(),
-	                                            Cast<APawn>(GetAvatarActorFromActorInfo()));
+												Cast<APawn>(GetAvatarActorFromActorInfo()));
 	Projectile->FinishSpawning(Transform);
 	UKismetSystemLibrary::PrintString(this, FString("Ability Activated"));
 }

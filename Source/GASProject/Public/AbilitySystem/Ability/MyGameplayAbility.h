@@ -28,5 +28,10 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Projectile)
 	TSubclassOf<AProjectile> ProjectileClass;
 
-	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
+	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
+	                             const FGameplayAbilityActivationInfo ActivationInfo,
+	                             const FGameplayEventData* TriggerEventData) override;
+
+	UFUNCTION(BlueprintCallable, Category = "Ability")
+	void SpawnProjectile();
 };
