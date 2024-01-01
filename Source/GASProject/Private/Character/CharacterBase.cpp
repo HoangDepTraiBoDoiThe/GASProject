@@ -36,7 +36,6 @@ void ACharacterBase::OnRep_PlayerState()
 
 void ACharacterBase::AddCharacterAbilities()
 {
-	if (!HasAuthority()) return;
 	UGASAbilitySystemComponentBase* AbilitySystemComponentBase = CastChecked<UGASAbilitySystemComponentBase>(AbilitySystemComponent);
 	AbilitySystemComponentBase->AddCharacterAbilities(CharacterAbilities);
 }

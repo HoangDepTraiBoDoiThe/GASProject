@@ -118,15 +118,13 @@ void AGASPlayerController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
 
-	GetPlayerCharacter()->InitAbilitySystemInfo();
-	GetPlayerCharacter()->AddCharacterAbilities();
+
 }
 
 void AGASPlayerController::AcknowledgePossession(APawn* P)
 {
 	Super::AcknowledgePossession(P);
 
-	GetPlayerCharacter()->InitAbilitySystemInfo();
 }
 
 APlayerCharacter* AGASPlayerController::GetPlayerCharacter()

@@ -46,6 +46,21 @@ void APlayerCharacter::InitAbilitySystemInfo()
 	
 }
 
+void APlayerCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	InitAbilitySystemInfo();
+	AddCharacterAbilities();
+}
+
+void APlayerCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	InitAbilitySystemInfo();
+}
+
 FVector APlayerCharacter::GetWeaponSpawnPoint()
 {
 	return GetMesh()->GetSocketLocation(WeaponSpawnPoint);
