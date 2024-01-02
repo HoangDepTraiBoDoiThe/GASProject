@@ -58,7 +58,13 @@ void APlayerCharacter::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
 
+}
+
+void APlayerCharacter::OnRep_Controller()
+{
+	Super::OnRep_Controller();
 	InitAbilitySystemInfo();
+
 }
 
 FVector APlayerCharacter::GetWeaponSpawnPoint()

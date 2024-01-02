@@ -25,6 +25,7 @@ public:
 	virtual void InitAbilitySystemInfo() override;
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
+	virtual void OnRep_Controller() override;
 	
 	virtual FVector GetWeaponSpawnPoint() override;
 
