@@ -34,9 +34,11 @@ void APlayerCharacter::InitAbilitySystemInfo()
 	AbilitySystemComponent = GASPlayerState->GetAbilitySystemComponent();
 	AttributeSet = Cast<UGASAttributeSet>(GASPlayerState->GetAttributeSet());
 
-	Cast<UGASAbilitySystemComponentBase>(AbilitySystemComponent)->AbilityActorInfoSet();
-
-	InitializeDefaultAttribute();
+	if (HasAuthority())
+	{
+		Cast<UGASAbilitySystemComponentBase>(AbilitySystemComponent)->AbilityActorInfoSet();
+		InitializeDefaultAttribute();
+	}
 
 	GASPlayerController = Cast<AGASPlayerController>(GetController());
 	GASHud = Cast<AGASHUD>(GASPlayerController->GetHUD());

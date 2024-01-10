@@ -30,6 +30,7 @@ void AGASEffectActor::Tick(float DeltaTime)
 
 void AGASEffectActor::OnBeginOverlap(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffect)
 {
+	if (!HasAuthority()) return;
 	bool bShouldApply = InfiniteGameplayEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap ||
 		HasDurationGameplayEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap ||
 		InstanceGameplayEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap;
@@ -54,6 +55,7 @@ void AGASEffectActor::OnBeginOverlap(AActor* TargetActor, TSubclassOf<UGameplayE
 
 void AGASEffectActor::OnEndOverlap(AActor* TargetActor)
 {
+	if (!HasAuthority()) return;
 	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 	if (InfiniteGameplayEffectRemovalPolicy == EEffectRemovalPolicy::RemoveOnEndOverlap && IsValid(TargetASC) && ActiveEffectHandles.Num() > 0)
 	{
