@@ -15,10 +15,11 @@ void UMyGameplayAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 	
 }
 
-void UMyGameplayAbility::SpawnProjectile()
+void UMyGameplayAbility::SpawnProjectile(const FVector& TargetLocation)
 {
 	if (!GetAvatarActorFromActorInfo()->HasAuthority()) return;
 	FTransform Transform;
+	Transform.SetRotation(FQuat((TargetLocation - Cast<APlayerCharacter>(GetAvatarActorFromActorInfo())->GetWeaponSpawnPoint()).Rotation()));
 	Transform.SetLocation(Cast<APlayerCharacter>(GetAvatarActorFromActorInfo())->GetWeaponSpawnPoint());
 	AProjectile* Projectile = GetWorld()->SpawnActorDeferred<AProjectile>(ProjectileClass, Transform, GetAvatarActorFromActorInfo(),
 												Cast<APawn>(GetAvatarActorFromActorInfo()));

@@ -33,5 +33,5 @@ protected:
 	                             const FGameplayEventData* TriggerEventData) override;
 
 	UFUNCTION(BlueprintCallable, Category = "Ability")
-	void SpawnProjectile();
+	void SpawnProjectile(const FVector& TargetLocation);
 };
